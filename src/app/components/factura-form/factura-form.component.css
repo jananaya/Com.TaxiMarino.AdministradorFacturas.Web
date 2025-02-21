@@ -1,0 +1,30 @@
+.modal-title {
+    margin-bottom: 16px;
+  }
+  
+  .modal-content {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 16px;
+    width: 100%;
+    max-height: unset;
+    overflow: visible;
+  }
+  
+  .full-width {
+    width: 100%;
+  }
+  
+  .mat-field-fix {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    padding: 16px;
+  }
+  

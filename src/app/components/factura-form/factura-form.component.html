@@ -1,0 +1,24 @@
+<h2 mat-dialog-title class="modal-title">{{ action }} Factura</h2>
+
+<mat-dialog-content class="modal-content">
+  <form [formGroup]="facturaForm">
+    <mat-form-field appearance="outline" class="full-width mat-field-fix">
+      <mat-label>Cliente</mat-label>
+      <input matInput formControlName="cliente" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width mat-field-fix">
+      <mat-label>Fecha</mat-label>
+      <input matInput [matDatepicker]="picker" formControlName="fecha" />
+      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end" class="modal-actions">
+  <button mat-button (click)="cerrarModal()">Cerrar</button>
+  <button mat-raised-button color="primary" (click)="processFactura()" [disabled]="facturaForm.invalid">
+    {{ action }} Factura
+  </button>
+</mat-dialog-actions>
