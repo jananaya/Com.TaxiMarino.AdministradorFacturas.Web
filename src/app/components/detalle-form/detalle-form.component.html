@@ -1,0 +1,27 @@
+<h2 mat-dialog-title class="modal-title">{{action}} Producto</h2>
+
+<mat-dialog-content class="modal-content">
+  <form [formGroup]="productoForm">
+    <mat-form-field appearance="outline" class="full-width mat-field-fix">
+      <mat-label>Producto</mat-label>
+      <input matInput formControlName="producto" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width mat-field-fix">
+      <mat-label>Cantidad</mat-label>
+      <input matInput type="number" formControlName="cantidad" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width mat-field-fix">
+      <mat-label>Precio Unitario</mat-label>
+      <input matInput type="number" formControlName="precioUnitario" />
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end" class="modal-actions">
+  <button mat-button (click)="cerrarModal()">Cerrar</button>
+  <button mat-raised-button color="primary" (click)="processProducto()" [disabled]="productoForm.invalid">
+    {{action}}
+  </button>
+</mat-dialog-actions>
