@@ -1,0 +1,100 @@
+<div class="act-btn-container">
+  <button mat-raised-button class="demo-button" (click)="openFacturaForm()">
+    Crear factura
+  </button>
+</div>
+
+<table mat-table [dataSource]="facturas" multiTemplateDataRows class="mat-elevation-z8">
+  @for (column of columnsToDisplay; track column) {
+
+  <ng-container matColumnDef="{{column}}">
+    <th mat-header-cell *matHeaderCellDef> {{ column }} </th>
+    <td mat-cell *matCellDef="let element">
+      @if (column === 'total') {
+      {{ element[column] | currencyFormat }}
+      } @else {
+      {{ element[column] }}
+      }
+    </td>
+
+  </ng-container>
+  }
+  <ng-container matColumnDef="expand">
+    <th mat-header-cell *matHeaderCellDef aria-label="row actions">&nbsp;</th>
+    <td mat-cell *matCellDef="let element">
+      <button mat-icon-button aria-label="expand row" (click)="toggleRow(element); $event.stopPropagation()">
+        @if (selectedFactura === element) {
+        <mat-icon>keyboard_arrow_up</mat-icon>
+        } @else {
+        <mat-icon>keyboard_arrow_down</mat-icon>
+        }
+      </button>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="expandedDetail">
+    <td mat-cell *matCellDef="let element" [attr.colspan]="columnsToDisplayWithExpand.length">
+      <div class="example-element-detail" [@detailExpand]="element == selectedFactura ? 'expanded' : 'collapsed'">
+
+        <div class="example-element-description">
+
+          <div class="act-btn-container">
+            <mat-icon (click)="openDetalleForm(element)" aria-hidden="false" fontIcon="add_circle"></mat-icon>
+          </div>
+
+          <table mat-table [dataSource]="selectedDetalleFactura" class="mat-elevation-z8">
+
+
+            <ng-container matColumnDef="producto">
+              <th mat-header-cell *matHeaderCellDef>producto</th>
+              <td mat-cell *matCellDef="let element"> {{element.producto}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="cantidad">
+              <th mat-header-cell *matHeaderCellDef>cantidad</th>
+              <td mat-cell *matCellDef="let element"> {{element.cantidad}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="precio unitario">
+              <th mat-header-cell *matHeaderCellDef>precio unitario</th>
+              <td mat-cell *matCellDef="let element"> {{element.precioUnitario | currencyFormat }} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="subtotal">
+              <th mat-header-cell *matHeaderCellDef>subtotal</th>
+              <td mat-cell *matCellDef="let element"> {{element.subtotal | currencyFormat }} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="acciones">
+              <th mat-header-cell *matHeaderCellDef>acciones</th>
+              <td mat-cell *matCellDef="let element">
+                <mat-icon (click)="openDetalleForm(element, true)" aria-hidden="false"
+                  fontIcon="edit_square"></mat-icon>
+                <mat-icon (click)="deleteDetalle(element)" aria-hidden="false" fontIcon="delete"></mat-icon>
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="['producto', 'cantidad', 'precio unitario', 'subtotal', 'acciones']">
+            </tr>
+            <tr mat-row
+              *matRowDef="let row; columns: ['producto', 'cantidad', 'precio unitario', 'subtotal', 'acciones'];"></tr>
+          </table>
+
+          <div class="act-btn-container">
+            <button mat-button (click)="openFacturaForm(true)">Editar</button>
+            <button mat-button (click)="deleteFactura()">Eliminar</button>
+          </div>
+
+        </div>
+
+      </div>
+
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="columnsToDisplayWithExpand"></tr>
+  <tr mat-row *matRowDef="let element; columns: columnsToDisplayWithExpand;" class="example-element-row"
+    [class.example-expanded-row]="selectedFactura === element" (click)="toggleRow(element)">
+  </tr>
+  <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
+</table>
